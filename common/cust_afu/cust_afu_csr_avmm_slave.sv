@@ -90,6 +90,13 @@ import ed_mc_axi_if_pkg::*;
    output logic [63:0] sq_tail  [BE_CH-1:0],
    output logic [63:0] cq_head  [BE_CH-1:0],
 
+    //rdma params
+   output logic [63:0] rdma_local_key,
+   output logic [63:0] rdma_local_addr,
+   output logic [63:0] rdma_remote_key,
+   output logic [63:0] rdma_remote_addr,
+   output logic [63:0] rdma_qpn_ds, 
+
    output logic update,
    output logic end_proc,
 
@@ -148,6 +155,16 @@ logic [63:0] sq_tail_reg    [BE_CH-1:0];         //232
 logic [63:0] cq_head_reg    [BE_CH-1:0];         //240
 logic end_proc_reg;                         //248
 
+
+//RDMA additional parameters
+logic [63:0] rdma_local_key_reg;    //296
+logic [63:0] rdma_local_addr_reg;   //304
+logic [63:0] rdma_remote_key_reg;   //312
+logic [63:0] rdma_remote_addr_reg;  //320
+logic [63:0] rdma_qpn_ds_reg;       //328
+
+
+
 //control afu_top
 logic [63:0] afu_init_reg;                  //256
 logic [63:0] host_buf_addr_reg  [BE_CH-1:0];     //264
@@ -157,6 +174,9 @@ logic [63:0] queue_index_reg;               //272
 logic [63:0] m5_interval_reg;               //280
 logic        m5_query_en_reg;               //288
 logic [63:0] m5_addr_reg [31:0];            //[296, 552)
+
+
+
 
 logic [4:0]  m5_wr_index;
 logic [22:0] m5_rd_index;
@@ -237,6 +257,15 @@ always @(posedge clk) begin
         end
     end
 
+    rdma_local_key  <= rdma_local_key_reg; 
+    rdma_local_addr <= rdma_local_addr_reg;
+    rdma_remote_key <= rdma_remote_key_reg;
+    rdma_remote_addr <= rdma_remote_addr_reg;  
+    rdma_qpn_ds  <= rdma_qpn_ds_reg;
+
+
+
+
     for (int i=0; i<NUM_DEBUG; i++) begin
         debug_pf_reg[i] <= debug_pf[i];
     end
@@ -271,6 +300,12 @@ always @(posedge clk) begin
         update_reg <= 1'b0;
         end_proc_reg <= 1'b0;
         afu_init_reg <= '0;
+
+        rdma_local_key_reg <= '0; 
+        rdma_local_addr_reg <= '0; 
+        rdma_remote_key_reg <= '0;
+        rdma_remote_addr_reg <= '0;
+        rdma_qpn_ds_reg <= '0;
     end
     else begin
         if (write && (address == 22'h0000)) begin 
@@ -367,6 +402,21 @@ always @(posedge clk) begin
         else if (write && (address == 22'h0120)) begin 
             m5_query_en_reg <= writedata[0];
         end
+        else if (write && (address == 22'h0128)) begin //offset + 37: rdma local key  
+            rdma_local_key_reg <= (writedata & mask);
+        end  
+        else if (write && (address == 22'h0130)) begin //offset + 38: rdma local addr  
+            rdma_local_addr_reg <= (writedata & mask);
+        end  
+        else if (write && (address == 22'h0138)) begin //offset + 39: rdma remote key  
+            rdma_remote_key_reg <= (writedata & mask);
+        end 
+        else if (write && (address == 22'h0140)) begin //offset + 40: rdma remote addr  
+            rdma_remote_addr_reg <= (writedata & mask);
+        end
+        else if (write && (address == 22'h0148)) begin //offset + 41: rdma qpn and ds  
+            rdma_qpn_ds_reg <= (writedata & mask);
+        end 
         else begin
             o_start_proc <= 1'b0;
             o_end_proc <= 1'b0;
@@ -380,6 +430,12 @@ always @(posedge clk) begin
             update_reg <= 1'b0;
             end_proc_reg <= 1'b0;
             host_buf_addr_valid_reg[queue_index_reg[BE_IDX-1:0]] <= 1'b0;
+            //rdma control
+            rdma_local_key_reg <= rdma_local_key_reg;
+            rdma_local_addr_reg <= rdma_local_addr_reg;
+            rdma_remote_key_reg <= rdma_remote_key_reg; 
+            rdma_remote_addr_reg <= rdma_remote_addr_reg;
+            rdma_qpn_ds_reg <= rdma_qpn_ds_reg;
         end        
     end    
 end 
@@ -497,6 +553,21 @@ always @(posedge clk) begin
         end
         else if (read && (address[21:0] < 22'h428)) begin 
             readdata <=  debug_pf_reg[debug_pf_index] & mask;
+        end//add more params for rdma
+        else if (read && (address == 22'h0128)) begin //offset + 37: rdma local key  
+            readdata <= rdma_local_key_reg & mask;
+        end  
+        else if (read && (address == 22'h0130)) begin //offset + 38: rdma local addr  
+            readdata <= rdma_local_addr_reg & mask;
+        end  
+        else if (read && (address == 22'h0138)) begin //offset + 39: rdma remote key  
+            readdata <= rdma_remote_key_reg & mask;
+        end 
+        else if (read && (address == 22'h0140)) begin //offset + 40: rdma remote addr  
+            readdata <= rdma_remote_addr_reg & mask;
+        end
+        else if (read && (address == 22'h0148)) begin //offset + 41: rdma qpn and ds  
+            readdata <= rdma_qpn_ds_reg & mask;
         end
         else begin
            readdata  <= 64'h0;

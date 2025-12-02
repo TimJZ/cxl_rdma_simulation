@@ -36,6 +36,13 @@ module nvme_ctrl_wrapper #(
 
     input logic [63:0]  i_delay_cnt,
 
+    //RDMA additional parameters 
+    input logic [63:0]  i_rdma_local_key,
+    input logic [63:0]  i_rdma_local_addr,
+    input logic [63:0]  i_rdma_remote_key,
+    input logic [63:0]  i_rdma_remote_addr,
+    input logic [63:0]  i_rdma_qpn_ds,
+
     //to front_end
     input ed_mc_axi_if_pkg::t_to_nvme_axi4    nvme_to_be_axi4,
     output ed_mc_axi_if_pkg::t_from_nvme_axi4 be_to_nvme_axi4,
@@ -105,6 +112,13 @@ back_end_inst
     .i_cq_head              (i_cq_head  ),
     .i_update               (i_update   ),
     .i_end_proc             (i_end_proc ),
+
+    //RDMA additional parameters
+    .i_rdma_local_key       (i_rdma_local_key),
+    .i_rdma_local_addr      (i_rdma_local_addr),
+    .i_rdma_remote_key      (i_rdma_remote_key),
+    .i_rdma_remote_addr     (i_rdma_remote_addr),
+    .i_rdma_qpn_ds          (i_rdma_qpn_ds),
 
     .i_host_buf_addr_valid  (i_host_buf_addr_valid),
     .i_host_buf_addr        (i_host_buf_addr),

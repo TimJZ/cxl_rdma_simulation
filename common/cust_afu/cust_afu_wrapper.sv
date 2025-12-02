@@ -294,6 +294,14 @@ logic [63:0] cq_head_avmm [BE_CH-1:0];
 logic [63:0] host_buf_addr_csr  [BE_CH-1:0];
 logic [63:0] host_buf_addr_avmm [BE_CH-1:0];
 
+
+//RDMA additional parameters
+logic [63:0] rdma_local_key_cdc;
+logic [63:0] rdma_local_addr_cdc;
+logic [63:0] rdma_remote_key_cdc;
+logic [63:0] rdma_remote_addr_cdc;
+logic [63:0] rdma_qpn_ds_cdc;
+
 logic host_buf_addr_valid_csr   [BE_CH-1:0];
 logic host_buf_addr_valid_avmm  [BE_CH-1:0];
 
@@ -398,6 +406,13 @@ cust_afu_csr_avmm_slave #(
     .host_buf_addr_valid  (host_buf_addr_valid_csr),
     .host_buf_addr        (host_buf_addr_csr),
     .block_index_offset   (block_index_offset_csr),
+
+    //rdma, directly to NVMe controller through cdc 
+    .rdma_local_key(rdma_local_key_cdc),
+    .rdma_local_addr(rdma_local_addr_cdc),
+    .rdma_remote_key(rdma_remote_key_cdc),
+    .rdma_remote_addr(rdma_remote_addr_cdc),
+    .rdma_qpn_ds(rdma_qpn_ds_cdc),
 
     .bar_addr             (pio_bar_addr_csr  ),
     .requester_id         (pio_requester_id_csr), // requester id for PIO
@@ -574,6 +589,13 @@ nvme_controller_inst
     .i_host_buf_addr_valid  (host_buf_addr_valid_avmm),
     .i_host_buf_addr        (host_buf_addr_avmm),
     .i_block_index_offset   (block_index_offset_avmm),
+
+    //rdma
+    .i_rdma_local_key(rdma_local_key_cdc),
+    .i_rdma_local_addr(rdma_local_addr_cdc),
+    .i_rdma_remote_key(rdma_remote_key_cdc),
+    .i_rdma_remote_addr(rdma_remote_addr_cdc),
+    .i_rdma_qpn_ds(rdma_qpn_ds_cdc),
 
     .o_debug_pf             (debug_pf_avmm),
 

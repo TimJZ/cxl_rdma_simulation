@@ -28,6 +28,13 @@ module nvme_controller
     input logic [63:0]  i_host_buf_addr         [BE_CH-1:0],
     input logic [63:0]  i_block_index_offset,
 
+    //additional RDMA parameters
+    input logic [63:0]  i_rdma_local_key,
+    input logic [63:0]  i_rdma_local_addr,
+    input logic [63:0]  i_rdma_remote_key,
+    input logic [63:0]  i_rdma_remote_addr,
+    input logic [63:0]  i_rdma_qpn_ds,
+
     output logic [63:0] o_debug_pf [NUM_DEBUG-1:0], //debug signal
 
     input logic m5_query_en,
@@ -469,6 +476,12 @@ generate
             .i_cq_addr              (i_cq_addr[i] ), 
             .i_sq_tail              (i_sq_tail[i] ),
             .i_cq_head              (i_cq_head[i] ),
+            //additional RDMA parameters
+            .i_rdma_local_key       (i_rdma_local_key),
+            .i_rdma_local_addr      (i_rdma_local_addr),
+            .i_rdma_remote_key      (i_rdma_remote_key),   
+            .i_rdma_remote_addr     (i_rdma_remote_addr),
+            .i_rdma_qpn_ds          (i_rdma_qpn_ds),
             
             .i_delay_cnt            (i_delay_cnt),
 
