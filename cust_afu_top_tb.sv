@@ -697,6 +697,21 @@ for (int i=0; i<BE_CH; i++) begin
   #2  csr_avmm_write = 1;
   #2	csr_avmm_write = 0;
 
+  #20	csr_avmm_address = 22'h0138; //write to rdma remote key 
+      csr_avmm_writedata = 64'h001ffbba;
+  #2  csr_avmm_write = 1;
+  #2	csr_avmm_write = 0;
+
+  #20	csr_avmm_address = 22'h0140; //write to rdma remote address 
+      csr_avmm_writedata = 64'h560e468070000;
+  #2  csr_avmm_write = 1;
+  #2	csr_avmm_write = 0;
+
+  #20	csr_avmm_address = 22'h0148; //write to rdma qpn_ds 
+      csr_avmm_writedata = 64'h03ae0000;
+  #2  csr_avmm_write = 1;
+  #2	csr_avmm_write = 0;
+
 
 
   for (int j=0; j<1; j++) begin
