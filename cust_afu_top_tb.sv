@@ -687,6 +687,18 @@ for (int i=0; i<BE_CH; i++) begin
   #2  csr_avmm_write = 1;
   #2	csr_avmm_write = 0;
 
+  #20	csr_avmm_address = 22'h0128; //write to rdma local key 
+      csr_avmm_writedata = 64'h017e5a4;
+  #2  csr_avmm_write = 1;
+  #2	csr_avmm_write = 0;
+
+  #20	csr_avmm_address = 22'h0130; //write to rdma local address 
+      csr_avmm_writedata = 64'h60b5757db040;
+  #2  csr_avmm_write = 1;
+  #2	csr_avmm_write = 0;
+
+
+
   for (int j=0; j<1; j++) begin
     #20	csr_avmm_address = 22'h108; //write to host_buf_addr_reg
         csr_avmm_writedata = 64'h6080000000 + 1024*BF_ID*i + 1024*j;

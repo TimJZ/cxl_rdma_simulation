@@ -27,6 +27,18 @@ Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 Top level modules:
 	intel_cxl_pio_ed_top
 
+} {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/back_end.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/back_end.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
+-- Compiling module back_end
+-- Importing package ed_mc_axi_if_pkg
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/back_end.sv(61): (vlog-13314) Defaulting port 'nvme_to_be_axi4' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/back_end.sv(72): (vlog-13314) Defaulting port 'arready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/back_end.sv(78): (vlog-13314) Defaulting port 'wready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/back_end.sv(84): (vlog-13314) Defaulting port 'awready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+Top level modules:
+	back_end
+
 } {} {}} /home/jz23/Downloads/simulation_v1/common/afu/afu_top.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/afu/afu_top.sv
 Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 -- Compiling module afu_top
@@ -62,6 +74,16 @@ Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 
 Top level modules:
 	--none--
+
+} {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_wrapper.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_wrapper.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
+-- Compiling module cust_afu_wrapper
+-- Importing package ed_mc_axi_if_pkg
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_wrapper.sv(76): (vlog-13314) Defaulting port 'iafu2nvme_from_mc_axi4' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_wrapper.sv(78): (vlog-13314) Defaulting port 'iafu2mc_to_nvme_axi4' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+Top level modules:
+	cust_afu_wrapper
 
 } {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/fifo/read_fifo.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/fifo/read_fifo.sv
 Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
@@ -381,6 +403,18 @@ Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 Top level modules:
 	afu_fifo
 
+} {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/nvme_ctrl_wrapper.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/nvme_ctrl_wrapper.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
+-- Compiling module nvme_ctrl_wrapper
+-- Importing package ed_mc_axi_if_pkg
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/nvme_ctrl_wrapper.sv(47): (vlog-13314) Defaulting port 'nvme_to_be_axi4' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/nvme_ctrl_wrapper.sv(51): (vlog-13314) Defaulting port 'arready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/nvme_ctrl_wrapper.sv(64): (vlog-13314) Defaulting port 'wready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/nvme_ctrl_wrapper.sv(70): (vlog-13314) Defaulting port 'awready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+Top level modules:
+	nvme_ctrl_wrapper
+
 } {} {}} /home/jz23/Downloads/simulation_v1/ip/fifo.sv {1 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/ip/fifo.sv
 Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 -- Compiling module fifo
@@ -539,14 +573,6 @@ Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 
 Top level modules:
 	--none--
-
-} {} {}} /home/jz23/Downloads/simulation_v1/cust_afu_top_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/cust_afu_top_tb.sv
-Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
--- Compiling module cust_afu_top_tb
--- Importing package ed_mc_axi_if_pkg
-
-Top level modules:
-	cust_afu_top_tb
 
 } {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/cust_ram4port.sv {1 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_ctrl/cust_ram4port.sv
 Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
@@ -1371,6 +1397,25 @@ Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 Top level modules:
 	mc_fifo_asyr
 
+} {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
+-- Compiling module nvme_controller
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(23): (vlog-13314) Defaulting port 'i_sq_addr' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(24): (vlog-13314) Defaulting port 'i_cq_addr' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(25): (vlog-13314) Defaulting port 'i_sq_tail' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(26): (vlog-13314) Defaulting port 'i_cq_head' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(27): (vlog-13314) Defaulting port 'i_host_buf_addr_valid' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(28): (vlog-13314) Defaulting port 'i_host_buf_addr' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+-- Importing package ed_mc_axi_if_pkg
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(48): (vlog-13314) Defaulting port 'iafu2nvme_from_mc_axi4' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(51): (vlog-13314) Defaulting port 'iafu2mc_to_nvme_axi4' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(71): (vlog-13314) Defaulting port 'arready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(77): (vlog-13314) Defaulting port 'wready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/nvme_controller.sv(83): (vlog-13314) Defaulting port 'awready' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+Top level modules:
+	nvme_controller
+
 } {} {}} /home/jz23/Downloads/simulation_v1/ip/afu_mc.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/ip/afu_mc.sv
 Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 -- Compiling module afu_mc
@@ -1393,6 +1438,15 @@ Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
 
 Top level modules:
 	nvme_to_fifo_extended
+
+} {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_csr_avmm_slave.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_csr_avmm_slave.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
+-- Compiling module cust_afu_csr_avmm_slave
+-- Importing package ed_mc_axi_if_pkg
+** Warning: /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_csr_avmm_slave.sv(110): (vlog-13314) Defaulting port 'debug_pf' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+Top level modules:
+	cust_afu_csr_avmm_slave
 
 } {} {}} /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_cdc_wrapper.sv {2 {vlog -work work -vopt -sv -stats=none /home/jz23/Downloads/simulation_v1/common/cust_afu/cust_afu_cdc_wrapper.sv
 Questa Intel Starter FPGA Edition-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
