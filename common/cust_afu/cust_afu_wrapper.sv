@@ -160,9 +160,9 @@ module cust_afu_wrapper
 );
 
 localparam FE_CH = 8;        //number of nvme queue used
-localparam BE_CH = 8;        //number of nvme queue used
+localparam BE_CH = 2;        //number of nvme queue used
 localparam BE_RW_CH = 2; 
-localparam BE_BUF_ID = 4;
+localparam BE_BUF_ID = 2;
 localparam MSHR_CH = 2;      //number of mshr channel
 localparam RW_CH = 2; //number of read/write channel
 localparam CH_READ = RW_CH + 1;     //num of read channel connected to read fifo

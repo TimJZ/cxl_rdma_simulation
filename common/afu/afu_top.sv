@@ -39,7 +39,9 @@ import ed_mc_axi_if_pkg::*;
       input  logic                                             afu_clk,
       input  logic                                             afu_rstn,
      // April 2023 - Supporting out of order responses with AXI4
+      //Toggled in testbench after initiliazation --> afu state machine ready to go 
       input  ed_mc_axi_if_pkg::t_to_mc_axi4    [MC_CHANNEL-1:0] cxlip2iafu_to_mc_axi4,
+      //output to afu_mc, same as nvme2iafu_to_mc_axi4
       output ed_mc_axi_if_pkg::t_to_mc_axi4    [MC_CHANNEL-1:0] iafu2mc_to_mc_axi4 ,
       input  ed_mc_axi_if_pkg::t_from_mc_axi4  [MC_CHANNEL-1:0] mc2iafu_from_mc_axi4,
       output ed_mc_axi_if_pkg::t_from_mc_axi4  [MC_CHANNEL-1:0] iafu2cxlip_from_mc_axi4,

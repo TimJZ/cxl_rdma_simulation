@@ -4,7 +4,7 @@ import ed_mc_axi_if_pkg::*;
 (
     input logic afu_clk,
     input logic afu_rstn,
-
+    //from afu_top 
     input ed_mc_axi_if_pkg::t_to_mc_axi4 [MC_CHANNEL-1:0] iafu2mc_to_nvme_axi4,
     output ed_mc_axi_if_pkg::t_from_mc_axi4 [MC_CHANNEL-1:0] mc2iafu_from_nvme_axi4
 );

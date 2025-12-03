@@ -4,9 +4,9 @@ import ed_mc_axi_if_pkg::*;
 
 );
 
-localparam CH = 2;
-localparam BE_CH = 8;
-localparam BF_ID = 4;
+localparam CH = 2; //unused
+localparam BE_CH = 2;
+localparam BF_ID = 2; //host buffer (#) memory request handle 
 
 logic axi4_mm_clk, axi4_mm_rst_n;
 logic        csr_avmm_clk;
@@ -501,17 +501,22 @@ task send_write;
     #2 
     init_set = 1;
     
+    //summary: afu_top launch a write request to cust_afu_wrapper based on the input params 
     @(posedge axi4_mm_clk);
+    //awvalid high & init high --> state_run_W in afu_top
     cxlip2iafu_to_mc_axi4[channel].awvalid = 1'b1;
+    //everything else other than wvalid assigned to iafu2mc_to_nvme_axi4 in afu_top, then pass to cust_afu_wrapper
     cxlip2iafu_to_mc_axi4[channel].awaddr = addr;
     cxlip2iafu_to_mc_axi4[channel].awid = awid;
 
     cxlip2iafu_to_mc_axi4[channel].wdata = wdata;
+    //wvalid wait until state_run_w then pull high 
     cxlip2iafu_to_mc_axi4[channel].wvalid = 1'b1;
     cxlip2iafu_to_mc_axi4[channel].wlast = 1'b1;
     cxlip2iafu_to_mc_axi4[channel].wstrb = '1;
     cxlip2iafu_to_mc_axi4[channel].wuser = '0;
 
+    //awready pull high in afu_top during idle state-->meaning when the afu is back at idle, it's ready to take another request, pull everything low 
     @(posedge axi4_mm_clk iff iafu2cxlip_from_mc_axi4[channel].awready);
     cxlip2iafu_to_mc_axi4[channel].awvalid = 1'b0;
     cxlip2iafu_to_mc_axi4[channel].awaddr = '0;
@@ -661,6 +666,7 @@ Poll test
 $display("-----------Poll test");
 
 for (int i=0; i<BE_CH; i++) begin
+  $display("-----------queue %0d setup", i);
   #20	csr_avmm_address = 22'h110; //write to queue index
       csr_avmm_writedata = i;
   #2  csr_avmm_write = 1;
@@ -737,7 +743,7 @@ end
 
 
 // cache conflict 1
-$display("\n*************start function***************\n");
+$display("\n*************start function 1***************\n");
 #10
 send_write(.awid(7), .addr(52'h6070000000 + 52'h1810000000 + 512 + 64), .channel(1), .wdata(8));
 
@@ -746,7 +752,7 @@ send_write(.awid(7), .addr(52'h6070000000 + 52'h1810000000 + 512 + 64), .channel
 // #10
 // send_write(.awid(2), .addr(52'h6070000000 + 52'h1810000000 + 512 + 512 + 512 + 64 + 64), .channel(0), .wdata(5));
 
-$display("\n*************start function***************\n");
+$display("\n*************start function 2***************\n");
 #10
 send_write(.awid(9), .addr(52'h6070000000 + 52'h1a10000000 + 512 + 64 + 64), .channel(1), .wdata(10));
  

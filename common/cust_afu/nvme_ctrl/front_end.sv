@@ -2029,6 +2029,15 @@ generate
                         next_mshr_t_state[i] = STATE_IDLE;
                     end
                 end
+                // STATE_IDLE: begin
+                //     if (p_write_address_a != 4'd0) begin
+                //         //skip tag check for now 
+                //         next_mshr_t_state[i] = STATE_RD_SSD;
+                //     end
+                //     else begin
+                //         next_mshr_t_state[i] = STATE_IDLE;
+                //     end
+                // end
                 STATE_RD_TAG: begin
                     if (nvme2iafu_to_mc_axi4_ch_0[hash_reg[3]].arvalid && iafu2nvme_from_mc_axi4_ch_0[hash_reg[3]].arready) begin
                         next_mshr_t_state[i] = STATE_RD_TAG_DONE;

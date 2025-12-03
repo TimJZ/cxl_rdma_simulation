@@ -1,0 +1,14 @@
+# Current time Wed Dec 03 13:07:08 2025
+# ModelSim - Intel FPGA Edition Stack Trace
+# Program = vsim
+# Id = "2020.1"
+# Version = "2020.02"
+# Date = "Feb 28 2020"
+# Platform = win32pe
+# Signature = 4a3706afe29a2b87def93ebd4f2693fa
+# 0    0x7076f20c: 'wcslen + 0x19' in 'c:\windows\system32\msvcr120.dll'
+# 1    0x00a65f1d: '<unknown (@0xa65f1d)>'
+# 2    0x00a7963b: '<unknown (@0xa7963b)>'
+# End of Stack Trace
+
+
