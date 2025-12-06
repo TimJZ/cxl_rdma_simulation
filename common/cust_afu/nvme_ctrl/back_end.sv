@@ -481,46 +481,10 @@ Logic
                     be_to_nvme_axi4.ssd_ack_ready = 1'b1;
                 end
             end
-            // STATE_WRITE_SQ: begin
-            //     awaddr[0] = sq_addr + {48'b0,sq_tail[9:0],6'b0};
-            //     awvalid[0] = 1'b1;
-            //     awid[0] = awid_wr_sq;
-            //     awuser[0] = 6'b000000; //non cacheable, host bias, D2H write
-
-            //     wvalid[0] = 1'b1;
-            //     if (nvme_to_be_axi4_sq_reg.ssd_rq_type == 1'b0) begin //read request
-            //         wdata[0] = {64'h0,
-            //                 64'h0000000000000000,
-            //                 ssd_logic_block_index,             //TODO: change SLBA
-            //                 64'h0,
-            //                 {8'b0, host_buf_fifo_q[55:0]},
-            //                 64'h0,
-            //                 64'h0,
-            //                 {16'h0000,16'h0001,nvme_to_be_axi4_sq_reg.ssd_rq_fe_id[7:0],host_buf_fifo_q[63:56],16'h0002}};  //TODO: change CID
-            //     end
-            //     else begin  //write request
-            //         wdata[0] = {64'h0, //[not used]
-            //                 64'h0000000000000000,   //[NLB, no flags, ...]
-            //                 ssd_logic_block_index,             //[SLBA] TODO: change SLBA
-            //                 64'h0, //[not used]
-            //                 {8'b0, host_buf_fifo_q[55:0]}, //[DPTR]
-            //                 64'h0,//[not used]
-            //                 64'h0,//[not used]
-            //                 {16'h0000,16'h0001,nvme_to_be_axi4_sq_reg.ssd_rq_fe_id[7:0],host_buf_fifo_q[63:56],16'h0001}};  //[NSID, CID, flag, opcode]TODO: change CID
-            //     end
-            //     wstrb[0] = 64'hffffffffffffffff;
-            //     wlast[0] = 1'b1;
-            // end
-
             STATE_WRITE_SQ: begin
-                //adapted version for RDMA WQE 
-                //First write address, sq_tail last 10 bits used as index, preivously shifted by 6 --> multiplied by 64 (NVMe WQE size)
-                //Unchanged for now: assume 64 Bytes per WQE, 1 WQEBB with 4 segments: 1 control, 1 remote and 2 data 
                 awaddr[0] = sq_addr + {48'b0,sq_tail[9:0],6'b0};
-                //unchanged 
                 awvalid[0] = 1'b1;
                 awid[0] = awid_wr_sq;
-                //awuser[0] = 6'b100000; //non cacheable, host bias, D2D write
                 awuser[0] = 6'b000000; //non cacheable, host bias, D2H write
 
                 wvalid[0] = 1'b1;
@@ -534,31 +498,67 @@ Logic
                             64'h0,
                             {16'h0000,16'h0001,nvme_to_be_axi4_sq_reg.ssd_rq_fe_id[7:0],host_buf_fifo_q[63:56],16'h0002}};  //TODO: change CID
                 end
-                else begin  //write request --> write RDMA WQE
-                    //Big endian format
-                    //64 Bytes: 16 Bytes control, 16 Bytes remote, 16 Bytes data pointer 
-                    wdata[0] = {
-                        32'h08000000,                               //control segment: opcode for RDMA write in big endian 4B
-                        swap32(rdma_qpn_ds[31:0]),                    //control segment: QPN and DS & swap 4B
-                        8'b0,                                        //control segment:  signature = 0 1B
-                        16'b0,                                       //control segment:  dci_stream_chaneel = 0 2B 
-                        8'h08,                                       //control segment:  fm_ce_se = 8'h08 (RDMA write signaled) 1B
-                        32'b0,                                      //control segment:  imm_id = 0 4B end of control segment
-                        
-                        swap64(rdma_remote_addr),                    //remote segment: remote address 8B     
-                        swap32(rdma_remote_key[31:0]),               //remote segment: local key 4B
-                        32'b0,                                      //remote segment:  unused 4B end of remote segment
-
-                        32'h00020000,                               //data pointer segment: byte count 4B assume 512 Bytes to send
-                        swap32(rdma_local_key[31:0]),               //data pointer segment: local address 4B
-                        swap64(rdma_local_addr),                    //data pointer segment: local key 8B end of data pointer segment
-                        128'b0                                      //padding to make 64 Bytes total
-                        
-                    };
+                else begin  //write request
+                    wdata[0] = {64'h0, //[not used]
+                            64'h0000000000000000,   //[NLB, no flags, ...]
+                            ssd_logic_block_index,             //[SLBA] TODO: change SLBA
+                            64'h0, //[not used]
+                            {8'b0, host_buf_fifo_q[55:0]}, //[DPTR]
+                            64'h0,//[not used]
+                            64'h0,//[not used]
+                            {16'h0000,16'h0001,nvme_to_be_axi4_sq_reg.ssd_rq_fe_id[7:0],host_buf_fifo_q[63:56],16'h0001}};  //[NSID, CID, flag, opcode]TODO: change CID
                 end
                 wstrb[0] = 64'hffffffffffffffff;
                 wlast[0] = 1'b1;
             end
+
+            // STATE_WRITE_SQ: begin
+            //     //adapted version for RDMA WQE 
+            //     //First write address, sq_tail last 10 bits used as index, preivously shifted by 6 --> multiplied by 64 (NVMe WQE size)
+            //     //Unchanged for now: assume 64 Bytes per WQE, 1 WQEBB with 4 segments: 1 control, 1 remote and 2 data 
+            //     awaddr[0] = sq_addr + {48'b0,sq_tail[9:0],6'b0};
+            //     //unchanged 
+            //     awvalid[0] = 1'b1;
+            //     awid[0] = awid_wr_sq;
+            //     //awuser[0] = 6'b100000; //non cacheable, host bias, D2D write
+            //     awuser[0] = 6'b000000; //non cacheable, host bias, D2H write
+
+            //     wvalid[0] = 1'b1;
+            //     if (nvme_to_be_axi4_sq_reg.ssd_rq_type == 1'b0) begin //read request
+            //         wdata[0] = {64'h0,
+            //                 64'h0000000000000000,
+            //                 ssd_logic_block_index,             //TODO: change SLBA
+            //                 64'h0,
+            //                 {8'b0, host_buf_fifo_q[55:0]},
+            //                 64'h0,
+            //                 64'h0,
+            //                 {16'h0000,16'h0001,nvme_to_be_axi4_sq_reg.ssd_rq_fe_id[7:0],host_buf_fifo_q[63:56],16'h0002}};  //TODO: change CID
+            //     end
+            //     else begin  //write request --> write RDMA WQE
+            //         //Big endian format
+            //         //64 Bytes: 16 Bytes control, 16 Bytes remote, 16 Bytes data pointer 
+            //         wdata[0] = {
+            //             32'h08000000,                               //control segment: opcode for RDMA write in big endian 4B
+            //             swap32(rdma_qpn_ds[31:0]),                    //control segment: QPN and DS & swap 4B
+            //             8'b0,                                        //control segment:  signature = 0 1B
+            //             16'b0,                                       //control segment:  dci_stream_chaneel = 0 2B 
+            //             8'h08,                                       //control segment:  fm_ce_se = 8'h08 (RDMA write signaled) 1B
+            //             32'b0,                                      //control segment:  imm_id = 0 4B end of control segment
+                        
+            //             swap64(rdma_remote_addr),                    //remote segment: remote address 8B     
+            //             swap32(rdma_remote_key[31:0]),               //remote segment: local key 4B
+            //             32'b0,                                      //remote segment:  unused 4B end of remote segment
+
+            //             32'h00020000,                               //data pointer segment: byte count 4B assume 512 Bytes to send
+            //             swap32(rdma_local_key[31:0]),               //data pointer segment: local address 4B
+            //             swap64(rdma_local_addr),                    //data pointer segment: local key 8B end of data pointer segment
+            //             128'b0                                      //padding to make 64 Bytes total
+                        
+            //         };
+            //     end
+            //     wstrb[0] = 64'hffffffffffffffff;
+            //     wlast[0] = 1'b1;
+            // end
 
             STATE_WRITE_SQ_DONE: begin
 

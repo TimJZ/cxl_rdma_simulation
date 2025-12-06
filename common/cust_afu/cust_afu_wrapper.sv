@@ -159,7 +159,7 @@ module cust_afu_wrapper
    output logic                     rready
 );
 
-localparam FE_CH = 8;        //number of nvme queue used
+localparam FE_CH = 2;        //number of nvme queue used
 localparam BE_CH = 2;        //number of nvme queue used
 localparam BE_RW_CH = 2; 
 localparam BE_BUF_ID = 2;

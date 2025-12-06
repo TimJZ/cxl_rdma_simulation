@@ -713,8 +713,8 @@ Combination logic
 
                     //     end
                     // endcase
-                    iafu2mc_to_nvme_axi4_ch_i[7].arvalid    = ififo_q.arvalid;
-                    mc2iafu_from_nvme_axi4_ch_i_mux.arready        = mc2iafu_from_nvme_axi4_ch_i[7].arready;
+                    iafu2mc_to_nvme_axi4_ch_i[0].arvalid    = ififo_q.arvalid;
+                    mc2iafu_from_nvme_axi4_ch_i_mux.arready        = mc2iafu_from_nvme_axi4_ch_i[0].arready;
 
                     //fifo2ch AW channel
                     // unique case(ififo_q.awaddr[11:9])
@@ -789,8 +789,8 @@ Combination logic
 
                     //     end
                     // endcase
-                    iafu2mc_to_nvme_axi4_ch_i[7].awvalid    = ififo_q.awvalid;
-                    mc2iafu_from_nvme_axi4_ch_i_mux.awready        = mc2iafu_from_nvme_axi4_ch_i[7].awready;
+                    iafu2mc_to_nvme_axi4_ch_i[0].awvalid    = ififo_q.awvalid;
+                    mc2iafu_from_nvme_axi4_ch_i_mux.awready        = mc2iafu_from_nvme_axi4_ch_i[0].awready;
 
                     //fifo2ch W channel
                     // unique case(ififo_q.awaddr[11:9])
@@ -865,8 +865,8 @@ Combination logic
 
                     //     end
                     // endcase
-                    iafu2mc_to_nvme_axi4_ch_i[7].wvalid  = ififo_q.wvalid;
-                    mc2iafu_from_nvme_axi4_ch_i_mux.wready         = mc2iafu_from_nvme_axi4_ch_i[7].wready;
+                    iafu2mc_to_nvme_axi4_ch_i[0].wvalid  = ififo_q.wvalid;
+                    mc2iafu_from_nvme_axi4_ch_i_mux.wready         = mc2iafu_from_nvme_axi4_ch_i[0].wready;
 
                 end
                 default: begin

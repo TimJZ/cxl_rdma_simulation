@@ -2281,7 +2281,7 @@ generate
                     //     next_mshr_t_state[i] = STATE_WR_SSD_DONE;
                     // end
                     // if (rd_ssd_cp && wr_ssd_cp) begin
-                    if (rd_ssd_cp) begin
+                    if (wr_ssd_cp) begin
                         // next_mshr_t_state[i] = STATE_WR_SSD_RL;
                         next_mshr_t_state[i] = STATE_RD_SSD_RD_HOST;
                     end

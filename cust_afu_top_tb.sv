@@ -285,6 +285,7 @@ cust_afu_wrapper cust_afu_wrapper_inst
 
   .o_end_proc(end_proc),
 
+  //cust_afu-> mc_top
   .nvme2iafu_to_mc_axi4(nvme2iafu_to_mc_axi4),
   .iafu2nvme_from_mc_axi4(iafu2nvme_from_mc_axi4),
 
@@ -302,6 +303,7 @@ cust_afu_wrapper cust_afu_wrapper_inst
   // .to_pio_axi4      (to_pio_axi4),
   // .from_pio_axi4    (from_pio_axi4),
 
+  //afu -> cust_afu 
   .iafu2mc_to_nvme_axi4(iafu2mc_to_nvme_axi4),
   .mc2iafu_from_nvme_axi4(mc2iafu_from_nvme_axi4),
 
@@ -960,6 +962,7 @@ always_ff @(posedge axi4_mm_clk) begin
   end
 
   if (wready & wvalid) begin
+    //check data going into local dram cache (through AXI-MM)
       $display("write data %h at addr %h, wstrb: %h", wdata, awaddr, wstrb);
       if (wlast) begin
         $display("write last");
